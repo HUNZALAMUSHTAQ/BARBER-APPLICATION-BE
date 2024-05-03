@@ -1,7 +1,8 @@
 const express = require('express');
 const helmet = require('helmet');
 const xss = require('xss-clean');
-const mongoSanitize = require('express-mongo-sanitize');
+const WebSocket = require('ws');
+// const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const cors = require('cors');
 const passport = require('passport');
@@ -13,6 +14,9 @@ const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+
+// helpers
+const { socketInstance } = require('./helpers/socket-instance');
 
 const app = express();
 
@@ -32,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data
 app.use(xss());
-app.use(mongoSanitize());
+// app.use(mongoSanitize());
 
 // gzip compression
 app.use(compression());
@@ -40,6 +44,13 @@ app.use(compression());
 // enable cors
 app.use(cors());
 app.options('*', cors());
+
+const wss = new WebSocket.Server({ port: 8080 });
+/* initialing socket instance */
+socketInstance(wss);
+
+// eslint-disable-next-line
+console.log('Web Socket listening at wss://%s:%s', 'localhost', 8080);
 
 // jwt authentication
 app.use(passport.initialize());

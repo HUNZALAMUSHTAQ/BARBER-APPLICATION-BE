@@ -7,4 +7,6 @@ module.exports.Plan = require('./plan.model');
 module.exports.Services = require('./services.model');
 module.exports.Booking = require('./booking.models');
 
-
+module.exports.ChatRoom = require('./chat-rooms.model');
+module.exports.Messages = require('./messages.model');
+module.exports.Subscription = require('./subscription.model');

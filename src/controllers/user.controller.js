@@ -59,7 +59,6 @@ const uploadImage = catchAsync(async (req, res) => {
   });
 });
 
-
 const uploadExternalImageResource = catchAsync(async (req, res) => {
   multerConfig.uploadImage(req, res, async function (err) {
     if (err) {
@@ -86,5 +85,5 @@ module.exports = {
   deleteUser,
   updateUserLocation,
   uploadImage,
-  uploadExternalImageResource
+  uploadExternalImageResource,
 };

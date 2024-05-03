@@ -72,9 +72,9 @@ const updateUserLocationById = async (userId, longitude, latitude) => {
   }
   user.location = {
     type: 'Point',
-    coordinates: [longitude, latitude]
+    coordinates: [longitude, latitude],
   };
-  
+
   await user.save();
   return user;
 };
@@ -100,5 +100,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
-  updateUserLocationById
+  updateUserLocationById,
 };
