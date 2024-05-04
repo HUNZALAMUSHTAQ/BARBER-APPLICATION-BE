@@ -44,6 +44,16 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    address: {
+      type: String,
+      default: null,
+    },
+    workingHourStart: {
+      type: Date,
+    },
+    workingHourEnd: {
+      type: Date,
+    },
     isOTPVerified: {
       type: Boolean,
       default: false,
@@ -61,6 +71,9 @@ const userSchema = mongoose.Schema(
     },
     OTPcode: {
       type: Number,
+    },
+    profileImage: {
+      type: String,
     },
   },
   {
