@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
+const multerConfig = require('../config/multer.config');
 const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
 
@@ -30,10 +31,46 @@ const updateUser = catchAsync(async (req, res) => {
 });
 
 const updateUserLocation = catchAsync(async (req, res) => {
-  const userId = req.user.id
-  const {longitude, latitude} = req.body;
+  const userId = req.user.id;
+  const { longitude, latitude } = req.body;
   const user = await userService.updateUserLocationById(userId, longitude, latitude);
   res.send(user);
+});
+
+const uploadImage = catchAsync(async (req, res) => {
+  multerConfig.uploadImage(req, res, async function (err) {
+    if (err) {
+      return res.status(400).send({ message: err.message });
+    }
+    const fullUrl = req.protocol + '://' + req.get('host');
+
+    const userId = req.user.id;
+    const user = await userService.getUserById(userId);
+
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    }
+    const imagePath = fullUrl + '/uploads/' + req.file.filename;
+
+    user.profileImage = imagePath;
+    user.save();
+    const file = req.file;
+    res.status(httpStatus.OK).json({ message: 'File saved successfully', profileImage: imagePath });
+  });
+});
+
+
+const uploadExternalImageResource = catchAsync(async (req, res) => {
+  multerConfig.uploadImage(req, res, async function (err) {
+    if (err) {
+      return res.status(400).send({ message: err.message });
+    }
+    const fullUrl = req.protocol + '://' + req.get('host');
+    const resourcePath = fullUrl + '/uploads/' + req.file.filename;
+
+    const file = req.file;
+    res.status(httpStatus.OK).json({ message: 'File saved successfully', resourceUrl: resourcePath, file: file });
+  });
 });
 
 const deleteUser = catchAsync(async (req, res) => {
@@ -47,5 +84,7 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
-  updateUserLocation
+  updateUserLocation,
+  uploadImage,
+  uploadExternalImageResource
 };

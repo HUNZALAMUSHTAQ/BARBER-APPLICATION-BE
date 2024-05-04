@@ -50,6 +50,9 @@ if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
 
+// for images
+app.use('/uploads', express.static('uploads'))
+
 // v1 api routes
 app.use('/v1', routes);
 
