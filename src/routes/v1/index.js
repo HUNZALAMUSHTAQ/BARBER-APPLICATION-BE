@@ -2,7 +2,10 @@ const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const reviewRoute = require('./review.route');
+const planRoute = require('./plan.route');
 const productRoute = require('./product.route');
+const serviceRoute = require('./service.route');
+const bookingRoute = require('./booking.route');
 const operationsRoute = require('./operatinghours.route');
 
 const docsRoute = require('./docs.route');
@@ -31,6 +34,18 @@ const defaultRoutes = [
     path: '/operations',
     route: operationsRoute,
   },
+  {
+    path: '/plan',
+    route: planRoute
+  },
+  {
+    path: '/services',
+    route: serviceRoute
+  },
+  {
+    path: '/booking',
+    route: bookingRoute
+  }
 ];
 
 const devRoutes = [
