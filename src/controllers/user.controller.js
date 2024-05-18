@@ -4,6 +4,7 @@ const ApiError = require('../utils/ApiError');
 const multerConfig = require('../config/multer.config');
 const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
+const User = require('../models/user.model');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -59,7 +60,6 @@ const uploadImage = catchAsync(async (req, res) => {
   });
 });
 
-
 const uploadExternalImageResource = catchAsync(async (req, res) => {
   multerConfig.uploadImage(req, res, async function (err) {
     if (err) {
@@ -78,6 +78,52 @@ const deleteUser = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getBarbersWithDetails = catchAsync(async (req, res) => {
+  const barbers = await User.aggregate([
+    {
+      $match: {
+        role: 'barber',
+      },
+    },
+    {
+      $lookup: {
+        from: 'reviews',
+        localField: '_id',
+        foreignField: 'user',
+        as: 'Review',
+      },
+    },
+    {
+      $lookup: {
+        from: 'operatinghours',
+        localField: '_id',
+        foreignField: 'user',
+        as: 'operatinghours',
+      },
+    },
+    {
+      $addFields: {
+        reviewCount: {
+          $size: '$Review',
+        },
+        averageStars: {
+          $avg: '$Review.stars',
+        },
+      },
+    },
+  ]);
+
+  return res.status(httpStatus.OK).send(barbers);
+});
+const getBarbersWithName = catchAsync(async (req, res) => {
+  const { name } = req.query;
+
+  const barbers = await User.find({
+    role: 'barber',
+    name: { $regex: name, $options: 'i' } // Case-insensitive search
+  });
+  return res.status(httpStatus.OK).send(barbers);
+});
 module.exports = {
   createUser,
   getUsers,
@@ -86,5 +132,7 @@ module.exports = {
   deleteUser,
   updateUserLocation,
   uploadImage,
-  uploadExternalImageResource
+  uploadExternalImageResource,
+  getBarbersWithDetails,
+  getBarbersWithName
 };

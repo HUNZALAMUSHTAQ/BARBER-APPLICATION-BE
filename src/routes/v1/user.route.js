@@ -6,6 +6,10 @@ const userController = require('../../controllers/user.controller');
 
 const router = express.Router();
 
+router.get('/barbers', auth(), userController.getBarbersWithDetails);
+router.get('/barbers/search', auth(), userController.getBarbersWithName);
+
+
 router
   .route('/')
   .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
