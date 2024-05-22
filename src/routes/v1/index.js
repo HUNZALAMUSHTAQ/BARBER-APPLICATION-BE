@@ -8,7 +8,7 @@ const serviceRoute = require('./service.route');
 const bookingRoute = require('./booking.route');
 const operationsRoute = require('./operatinghours.route');
 
-// const chatRoute = require('./chat.route');
+const chatRoute = require('./chat.route');
 const docsRoute = require('./docs.route');
 const subscriptionRoute = require('./subscription.route');
 const config = require('../../config/config');
@@ -48,10 +48,10 @@ const defaultRoutes = [
     path: '/booking',
     route: bookingRoute,
   },
-  // {
-  //   path: '/chat',
-  //   route: chatRoute,
-  // },
+  {
+    path: '/chat',
+    route: chatRoute,
+  },
   {
     path: '/subscription',
     route: subscriptionRoute,

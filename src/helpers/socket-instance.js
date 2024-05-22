@@ -9,7 +9,7 @@ const getAllMessages = async (roomId) => {
 };
 
 const storeMessage = async (body) => {
-  await Messages.create(body);
+  return await Messages.create(body);
 };
 
 module.exports.socketInstance = (wss) => {
@@ -19,8 +19,8 @@ module.exports.socketInstance = (wss) => {
 
     wss.on('connection', async (ws, req) => {
       let roomId = req.url.split('?')[0];
-      roomId = parseInt(roomId.match(/\d+/)[0]);
-
+      roomId = roomId.replace(/^\//, '');
+    
       console.log(roomId);
       // Parse the URL and extract the query string
       const queryString = req.url.split('?')[1];
@@ -29,7 +29,7 @@ module.exports.socketInstance = (wss) => {
       const params = new URLSearchParams(queryString);
 
       // Get specific query parameters
-      const userId = parseInt(params.get('userId'));
+      const userId = params.get('userId');
 
       console.log(`Client ${userId} connected to room `, roomId);
       const roomWs = roomIds[roomId] || [];
@@ -42,19 +42,28 @@ module.exports.socketInstance = (wss) => {
       /* check for messages in room */
       const messages = await getAllMessages(roomId);
 
+      // const messages = []
+      console.log('messages', messages,roomIds[roomId].length);
+
       /* if messages in room */
-      if (messages.length && roomWs.length) {
+      if (messages.length && roomIds[roomId].length) {
         /* check clients in room */
 
         /* loop through each message */
         for (const message of messages) {
           /* loop through each client in the room and send that message to it */
-          for (const client of roomWs) {
+          for (const client of roomIds[roomId]) {
             const index = clients.indexOf(client);
 
-            if (index !== -1 && client.readyState === WebSocket.OPEN) {
-              console.log('sending message via socket', message);
-              client.send(message);
+            console.log("here",message,index,client.readyState)
+            if (index !== -1 && client.readyState === WebSocket.OPEN && client == ws) {
+              console.log('sending message via socket', message,message?.createdAt);
+              const response = {
+                message:message?.message,
+                userId:message?.userId,
+                createdAt:message?.createdAt,
+              }
+              client.send(JSON.stringify(response));
             }
           }
         }
@@ -62,27 +71,37 @@ module.exports.socketInstance = (wss) => {
       // Event listener for receiving messages from the client
       ws.on('message', async (message) => {
         console.log('message', message);
+        /* store message */
+        const messageInstance = await storeMessage({
+          userId,
+          roomId,
+          message,
+        });
+
+        const response = {
+          message:messageInstance?.message,
+          userId:messageInstance?.userId,
+          createdAt:messageInstance?.createdAt,
+        }
+
         /* check clients in room */
         const roomClients = roomIds[roomId] || [];
+        
 
         if (roomClients.length) {
           /* loop through each client in room */
           for (const client of roomClients) {
             const index = clients.indexOf(client);
 
+           
             /* send message to every one in room except the sender itself */
             if (index !== -1 && client !== ws && client.readyState === WebSocket.OPEN) {
               console.log('sending message via socket', message);
-              client.send(message);
+              client.send(JSON.stringify(response));
             }
           }
         }
-        /* store message */
-        await storeMessage({
-          userId,
-          roomId,
-          message,
-        });
+        
       });
 
       // Event listener for the client disconnecting

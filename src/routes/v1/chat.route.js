@@ -6,6 +6,6 @@ const chatController = require('../../controllers/chat.contoller');
 
 const router = express.Router();
 
-router.route('/').post(auth('manageUsers'), validate(chatValidation.createRoom), chatController.createRoom);
+router.route('/').post(validate(chatValidation.createRoom), chatController.createChatRoom);
 
 module.exports = router;
