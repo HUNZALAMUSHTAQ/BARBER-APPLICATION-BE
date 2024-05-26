@@ -1,6 +1,14 @@
 const { ChatRoom } = require('../models');
 
 /**
+ * Get all chat rooms with user count
+ * @returns {Promise<Array>}
+ */
+const getAllChatRooms = async () => {
+  const rooms = await ChatRoom.find()
+  return rooms;
+};
+/**
  * Create a chatroom
  * @param {Object} chatRoomBody - Contains an array of user IDs
  * @returns {Promise<ChatRoom>}
@@ -40,4 +48,5 @@ const addUserToChatRoom = async (roomId, userId) => {
 module.exports = {
   createChatRoom,
   addUserToChatRoom,
+  getAllChatRooms
 };

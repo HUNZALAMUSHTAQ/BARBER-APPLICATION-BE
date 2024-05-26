@@ -13,7 +13,12 @@ const addUserToChatRoom = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(updatedRoom);
 });
 
+const getAllChatRooms = catchAsync(async (req, res) => {
+  const rooms = await chatService.getAllChatRooms();
+  res.status(httpStatus.OK).send(rooms);
+});
 module.exports = {
   createChatRoom,
   addUserToChatRoom,
+  getAllChatRooms
 };
