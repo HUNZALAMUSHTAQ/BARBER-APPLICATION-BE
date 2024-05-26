@@ -7,6 +7,13 @@ const createChatRoom = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(room);
 });
 
+const addUserToChatRoom = catchAsync(async (req, res) => {
+  const { roomId, userId } = req.body;
+  const updatedRoom = await chatService.addUserToChatRoom(roomId, userId);
+  res.status(httpStatus.OK).send(updatedRoom);
+});
+
 module.exports = {
   createChatRoom,
+  addUserToChatRoom,
 };

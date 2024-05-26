@@ -1,32 +1,43 @@
-// const httpStatus = require('http-status');
 const { ChatRoom } = require('../models');
-// const ApiError = require('../utils/ApiError');
 
 /**
  * Create a chatroom
- * @param {Object} userBody
- * @returns {Promise<User>}
+ * @param {Object} chatRoomBody - Contains an array of user IDs
+ * @returns {Promise<ChatRoom>}
  */
-const createChatRoom = async (userBody) => {
-  const { user1, user2 } = userBody;
+const createChatRoom = async (chatRoomBody) => {
+  const { users } = chatRoomBody;
 
-  // Check if a chat room exists between the two users
+  // Check if a chat room exists with the exact same set of users
   let chatRoom = await ChatRoom.findOne({
-    $or: [
-      { user1, user2 },
-      { user1: user2, user2: user1 },
-    ],
+    users: { $all: users, $size: users.length }
   });
 
   // If no chat room exists, create a new one
   if (!chatRoom) {
-    chatRoom = await ChatRoom.create({ user1, user2 });
+    chatRoom = await ChatRoom.create({ users });
   }
 
-  // Return the chat room ID
+  // Return the chat room
+  return chatRoom;
+};
+
+/**
+ * Add a user to an existing chat room
+ * @param {string} roomId
+ * @param {string} userId
+ * @returns {Promise<ChatRoom>}
+ */
+const addUserToChatRoom = async (roomId, userId) => {
+  const chatRoom = await ChatRoom.findByIdAndUpdate(
+    roomId,
+    { $addToSet: { users: userId } }, // Prevent duplicates
+    { new: true } // Return the updated document
+  );
   return chatRoom;
 };
 
 module.exports = {
   createChatRoom,
+  addUserToChatRoom,
 };

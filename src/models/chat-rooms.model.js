@@ -6,12 +6,11 @@ const chatRoomSchema = mongoose.Schema(
     user1: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
-      required: true,
     },
+    users: [],
     user2: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
-      required: true,
     },
   },
   {
