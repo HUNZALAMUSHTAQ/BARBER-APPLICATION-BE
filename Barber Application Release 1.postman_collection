@@ -1688,6 +1688,191 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get All Barbers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/users/barbers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users",
+						"barbers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Barbers By Name",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/users/barbers/search?name=Hunza",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users",
+						"barbers",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Hunza"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Rooms",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/v1/chat/rooms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"chat",
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Rooms By User ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/v1/chat/rooms/6634f1c5e905cd480cecc5f4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"chat",
+						"rooms",
+						"6634f1c5e905cd480cecc5f4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Chat Room",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user1\":\"6634f1c5e905cd480cecc5f4\",\r\n    \"user2\":\"6634f3b39ba5b620087b7de7\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/v1/chat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"chat"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -1713,6 +1898,12 @@
 		}
 	],
 	"variable": [
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string",
+			"disabled": true
+		},
 		{
 			"key": "access_token",
 			"value": "",
