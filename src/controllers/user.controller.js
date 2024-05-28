@@ -134,5 +134,5 @@ module.exports = {
   uploadImage,
   uploadExternalImageResource,
   getBarbersWithDetails,
-  getBarbersWithName
+  getBarbersWithName,
 };

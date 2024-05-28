@@ -8,7 +8,9 @@ const serviceRoute = require('./service.route');
 const bookingRoute = require('./booking.route');
 const operationsRoute = require('./operatinghours.route');
 
+const chatRoute = require('./chat.route');
 const docsRoute = require('./docs.route');
+const subscriptionRoute = require('./subscription.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -36,16 +38,24 @@ const defaultRoutes = [
   },
   {
     path: '/plan',
-    route: planRoute
+    route: planRoute,
   },
   {
     path: '/services',
-    route: serviceRoute
+    route: serviceRoute,
   },
   {
     path: '/booking',
-    route: bookingRoute
-  }
+    route: bookingRoute,
+  },
+  {
+    path: '/chat',
+    route: chatRoute,
+  },
+  {
+    path: '/subscription',
+    route: subscriptionRoute,
+  },
 ];
 
 const devRoutes = [
