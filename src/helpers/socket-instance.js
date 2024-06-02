@@ -52,16 +52,28 @@ module.exports.socketInstance = (wss) => {
           message: message.message,
           userId: message.userId,
           createdAt: message.createdAt,
+          type: message.type,
         }));
       }
 
       // Event listener for receiving messages from the client
-      ws.on('message', async (message) => {
-        const messageInstance = await storeMessage({ userId, roomId, message });
+      ws.on('message', async (messageData) => {
+        let parsedMessage;
+        try {
+          parsedMessage = JSON.parse(messageData);
+        } catch (err) {
+          console.error('Invalid JSON:', err);
+          ws.send(JSON.stringify({ error: 'Invalid JSON format' }));
+          return;
+        }
+
+        const { message, type } = parsedMessage;
+        const messageInstance = await storeMessage({ userId, roomId, message, type });
         const response = {
           message: messageInstance.message,
           userId: messageInstance.userId,
           createdAt: messageInstance.createdAt,
+          type: messageInstance.type
         };
 
         // Broadcast the message to all clients in the room

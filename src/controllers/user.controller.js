@@ -59,6 +59,29 @@ const uploadImage = catchAsync(async (req, res) => {
   });
 });
 
+const uploadAudio = catchAsync(async (req, res) => {
+  multerConfig.uploadAudio(req, res, async function (err) {
+    if (err) {
+      return res.status(400).send({ message: err.message });
+    }
+    const fullUrl = req.protocol + '://' + req.get('host');
+
+    const audioPath = fullUrl + '/uploads/audio/' + req.file.filename;
+
+    res.status(httpStatus.OK).json({ message: 'File saved successfully', audioFile: audioPath });
+  });
+});
+
+const getAudioFile = catchAsync(async (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, '/uploads/audio/', filename);
+
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    throw new ApiError(httpStatus.NOT_FOUND, 'File not found.');
+  }
+});
 const uploadExternalImageResource = catchAsync(async (req, res) => {
   multerConfig.uploadImage(req, res, async function (err) {
     if (err) {
@@ -86,4 +109,6 @@ module.exports = {
   updateUserLocation,
   uploadImage,
   uploadExternalImageResource,
+  uploadAudio,
+  getAudioFile
 };

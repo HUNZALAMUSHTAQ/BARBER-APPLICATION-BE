@@ -19,6 +19,8 @@ router
 
 router.put('/location', auth(), validate(userValidation.location), userController.updateUserLocation);
 router.post('/upload/profile', auth(), userController.uploadImage);
+router.post('/upload/audio', userController.uploadAudio);
+router.get('/upload/audio/:filename', userController.getAudioFile);
 router.post('/upload/resource', auth(), userController.uploadExternalImageResource);
 
 
