@@ -14,6 +14,7 @@ const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+const {stripeWebhook} = require('./controllers/stripe.controller');
 
 // helpers
 const { socketInstance } = require('./helpers/socket-instance');
@@ -27,6 +28,9 @@ if (config.env !== 'test') {
 
 // set security HTTP headers
 app.use(helmet());
+
+// webhook
+app.use('/v1/stripe/webhook', express.raw({ type: 'application/json' }), stripeWebhook)
 
 // parse json request body
 app.use(express.json());

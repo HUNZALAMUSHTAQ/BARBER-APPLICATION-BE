@@ -9,4 +9,5 @@ module.exports.Booking = require('./booking.models');
 
 module.exports.ChatRoom = require('./chat-rooms.model');
 module.exports.Messages = require('./messages.model');
-module.exports.Subscription = require('./subscription.model');
+module.exports.Subscription = require('./subscription.model')
+module.exports.Order = require('./order.model');

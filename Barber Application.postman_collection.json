@@ -1350,8 +1350,17 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"paymentType\": \"payment\" // payment | subscription\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:3000/v1/stripe/buy-product/66357221b4bded5684dd2344",
+							"raw": "http://localhost:3000/v1/stripe/buy-product/6635793feb5528529c2a2cc4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1361,7 +1370,71 @@
 								"v1",
 								"stripe",
 								"buy-product",
-								"66357221b4bded5684dd2344"
+								"6635793feb5528529c2a2cc4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/v1/stripe/user-orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"stripe",
+								"user-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get seller orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/v1/stripe/seller-orders/6634f3b39ba5b620087b7de7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"stripe",
+								"seller-orders",
+								"6634f3b39ba5b620087b7de7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/v1/stripe/all-orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"stripe",
+								"all-orders"
 							]
 						}
 					},
@@ -1928,7 +2001,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjM0ZjNiMzliYTViNjIwMDg3YjdkZTciLCJpYXQiOjE3MTkwOTA5NjEsImV4cCI6MTcxOTA5Mjc2MSwidHlwZSI6ImFjY2VzcyJ9.CbCRL5HuTWBjAlc_V_DXiVibErtYjCn5MbmsjEmm8KU",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjM0ZjNiMzliYTViNjIwMDg3YjdkZTciLCJpYXQiOjE3MTkxNDAwMzYsImV4cCI6MTcxOTE0MTgzNiwidHlwZSI6ImFjY2VzcyJ9.LgdBtGoQ4S4xXCLkkz_mJG3iiBphlQsej5yfzFa2Avc",
 				"type": "string"
 			}
 		]
