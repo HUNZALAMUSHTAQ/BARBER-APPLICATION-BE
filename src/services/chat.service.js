@@ -14,16 +14,16 @@ const getAllChatRooms = async () => {
  * @returns {Promise<ChatRoom>}
  */
 const createChatRoom = async (chatRoomBody) => {
-  const { users } = chatRoomBody;
+  const { users, name } = chatRoomBody;
 
   // Check if a chat room exists with the exact same set of users
   let chatRoom = await ChatRoom.findOne({
     users: { $all: users, $size: users.length }
   });
 
-  // If no chat room exists, create a new one
+  // If no chat room exists, create a new one with the name
   if (!chatRoom) {
-    chatRoom = await ChatRoom.create({ users });
+    chatRoom = await ChatRoom.create({ users, name });
   }
 
   // Return the chat room

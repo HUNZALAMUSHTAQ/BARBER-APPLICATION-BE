@@ -3,6 +3,10 @@ const { toJSON } = require('./plugins');
 
 const chatRoomSchema = mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
     user1: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
