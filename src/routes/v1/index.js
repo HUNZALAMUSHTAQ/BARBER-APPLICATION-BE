@@ -11,6 +11,7 @@ const operationsRoute = require('./operatinghours.route');
 const chatRoute = require('./chat.route');
 const docsRoute = require('./docs.route');
 const subscriptionRoute = require('./subscription.route');
+const stripeRoute = require('./stripe.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -56,6 +57,10 @@ const defaultRoutes = [
     path: '/subscription',
     route: subscriptionRoute,
   },
+  {
+    path: '/stripe',
+    route: stripeRoute,
+  }
 ];
 
 const devRoutes = [

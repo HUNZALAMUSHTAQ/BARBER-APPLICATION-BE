@@ -61,4 +61,8 @@ module.exports = {
     },
     from: envVars.EMAIL_FROM,
   },
+  stripe: {
+    secretKey: envVars.STRIPE_SECRET_KEY,
+    publicKey: envVars.STRIPE_PUBLIC
+  }
 };

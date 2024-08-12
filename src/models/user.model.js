@@ -75,6 +75,9 @@ const userSchema = mongoose.Schema(
     profileImage: {
       type: String,
     },
+    stripeId: {
+      type: String
+    }
   },
   {
     timestamps: true,

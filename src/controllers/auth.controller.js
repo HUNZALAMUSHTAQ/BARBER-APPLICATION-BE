@@ -1,10 +1,16 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const { authService, userService, tokenService, emailService } = require('../services');
+const { Product } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
+  if (req.body.role === 'barber') {
+    const product = await Product.create({ user: user.id, name: 'Subscription 1', price: 10, stock: 0, description: `Subscription 1 to ${user?.name || 'barber'}` });
+    const product = await Product.create({ user: user.id, name: 'Subscription 2', price: 15, stock: 0, description: `Subscription 2 to ${user?.name || 'barber'}` });
+    const product = await Product.create({ user: user.id, name: 'Subscription 3', price: 20, stock: 0, description: `Subscription 3 to ${user?.name || 'barber'}` });
+  }
   const tokens = await tokenService.generateAuthTokens(user);
   res.status(httpStatus.CREATED).send({ user, tokens });
 });

@@ -11,6 +11,12 @@ const createProduct = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(product);
 });
 
+const getSubsOfbarber = catchAsync(async (req, res) => {
+  const userId = req.params.userId;
+  const products = await Product.find({ user: userId, type: 'subscription' });
+  res.status(httpStatus.OK).send(products);
+});
+
 const getProductById = catchAsync(async (req, res) => {
 
   const productId = req.params.productId;
@@ -70,6 +76,7 @@ module.exports = {
   createProduct,
   getProductById,
   updateProductById,
+  getSubsOfbarber,
   deleteProductById,
   getAllProducts,
   getAllProductsOfUsers,
