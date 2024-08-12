@@ -73,11 +73,12 @@ const createCheckoutSession = catchAsync(async (req, res) => {
     }
     const amount = Number(product.price);
     const platformFee = Math.round(amount * 0.10);
-    const paymentMode = req.body.paymentType || 'payment';
+    const paymentMode = product?.type === 'product'? 'payment': 'subscription';
     const recurringSchedule = 'monthly';
     paymentObject = {
       customer_email: user.email,
       mode: paymentMode,
+      recurringSchedule: paymentMode === 'subscription' ? recurringSchedule : '',
       success_url: 'https://barber-app.com',
       cancel_url: 'https://barber-app.com',
       metadata: {

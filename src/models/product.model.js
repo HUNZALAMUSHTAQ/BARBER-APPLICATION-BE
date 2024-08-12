@@ -33,6 +33,12 @@ const productSchema = mongoose.Schema(
     stock: {
       type: Number,
     },
+    type: {
+      type: String,
+      required: true,
+      enum: ['product', 'subscription'],
+      default: 'product',
+    }
   },
   {
     timestamps: true,
