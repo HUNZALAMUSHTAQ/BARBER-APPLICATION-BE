@@ -19,7 +19,7 @@ router
 
 router.get('/user/:userId', validate(productValidation.userIdParam), productController.getAllProductsOfUsers);
 
-router.get('/barber/:userId', validate(productValidation.userIdParam), productController.getSubsOfbarber);
+router.get('/barber-subs/:userId', validate(productValidation.userIdParam), productController.getSubsOfbarber);
 
 module.exports = router;
 
